@@ -1,0 +1,68 @@
+# Executed files (TBD)
+/tourism_app
+/server_bin
+/gitignore
+
+# object files and libraries
+*.o
+*.obj
+*.a
+*.la
+*.lo
+*.so
+*.so.*
+*.dll
+*.dylib
+
+# === Copile system (CMake / Make) ===
+# Directory whre CMake generate compile files
+/build/
+/bin/
+CMakeCache.txt
+CMakeFiles/
+CMakeScripts/
+cmake_install.cmake
+Makefile
+install_manifest.txt
+compile_commands.json
+CPackConfig.cmake
+CPackSourceConfig.cmake
+
+# === Docker and PostgreSQL ===
+/pgdata/
+/postgres_data/
+/db_data/
+*.sql.gz
+*.bak
+
+# === Secrets and Settings (AWS) ===
+# Enviroment variables
+.env
+.env.local
+docker-compose.override.yml
+
+# Locl key for cloud (SSH)
+*.pem
+*.key
+*.pub
+.aws/
+.azure/
+
+# === IDE ===
+# VS Code (популярний на Ubuntu)
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# Temporary files Vim / Nano
+*~
+*.swp
+*.swo
+
+# === Sytem files Linux ===
+.DS_Store
+core
+core.*

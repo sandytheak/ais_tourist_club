@@ -51,3 +51,5 @@ The system enables the generation of specific lists and tour schedules:
 * **Database:** PostgreSQL
 * **Infrastructure:** Docker & Docker Compose
 * **Frontend:** HTML5, CSS3, JavaScript (Browser-based)
+
+# Project Structure

@@ -53,3 +53,31 @@ The system enables the generation of specific lists and tour schedules:
 * **Frontend:** HTML5, CSS3, JavaScript (Browser-based)
 
 # Project Structure
+
+## Database Architecture
+
+The project utilizes the **PostgreSQL 16+** relational database management system. The architecture is designed based on data normalization principles to ensure integrity and high performance.
+
+### Database Schema (ER Diagram)
+The table structure corresponds to the UML class diagram (Entity):
+* **`users`**: Central user table supporting Role-Based Access Control (RBAC). Roles include: `TOURIST`, `AGENCY`, `ADMIN`, `TECH_SUPPORT`.
+* **`agencies`**: Data regarding partner travel agencies (verification status, years of operation).
+* **`countries`**: A directory of countries including visa requirement information.
+* **`tours`**: Detailed tour information with `M:1` (Many-to-One) relationships to countries and agencies.
+* **`bookings`**: A junction table linking tourists and tours (Composition relationship).
+* **`system_log`**: A technical activity log for tech support administrators.
+
+### Key Implementation Features:
+1. **Data Integrity:** Utilizes `FOREIGN KEY` constraints with `ON DELETE CASCADE` rules to automatically remove bookings if a tour is cancelled.
+2. **Security:** A dedicated database role `tourism_app_user` is implemented with restricted permissions (Principle of Least Privilege).
+3. **Automation:** `id` fields use `GENERATED ALWAYS AS IDENTITY`, while `timestamps` are automatically generated at the database level via `DEFAULT CURRENT_TIMESTAMP`.
+
+### How to Deploy the Database (Ubuntu/Docker)
+1. Ensure the `init.sql` file is located in the `./db/` directory.
+2. Start the container:
+   ```bash
+   docker-compose up -d db
+3. Password for default users:
+    'admin': 'ADMIN'
+    'tourism_app_user': 'Tourist' (need to communicate separately.
+    This role should be adjusted before final build of application and communicate in safe way.

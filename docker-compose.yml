@@ -10,9 +10,9 @@ services:
     volumes:
       # - ./my-postgres.conf:/etc/postgresql/postgresql.conf
       - ./init-db/init.sql:/docker-entrypoint-initdb.d/init.sql
-      - postgres_data:/var/lib/posgresql/data
+      - postgres_data:/var/lib/postgresql/data
 
     ports:
-      -"5432:5432"
+      - "5432:5432"
 volumes:
-  posgres_data:
+  postgres_data:

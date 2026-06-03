@@ -2,9 +2,19 @@
 -- PostgreSQL is chosen for the project
 
 -- create database if missing
-CREATE DATABASE tourist_club_db;
+-- CREATE DATABASE tourist_club_db;
 
 -- CREATE TABLES
+-- Entity: Agency
+CREATE TABLE agencies (
+	id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+	name VARCHAR(50),
+	registration_date DATE NOT NULL,
+	expirience_year INT,
+	is_verified BOOLEAN DEFAULT FALSE,
+	rate INT NOT NULL CHECK (rate IN (1, 2, 3, 4, 5))
+);
+
 -- Entity: Users
 CREATE TABLE users (
     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -24,15 +34,7 @@ CREATE TABLE users (
     agency_id BIGINT REFERENCES agencies(id) ON DELETE SET NULL
 );
 
--- Entity: Agency
-CREATE TABLE agency (
-	id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-	name VARCHAR(50),
-	registration_date DATE NOT NULL,
-	expirience_year INT,
-	is_verified BOOLEAN DEFAULT FALSE,
-	rate INT NOT NULL CHECK (rate IN (1, 2, 3, 4, 5))
-);
+
 
 -- Entity: Country
 CREATE TABLE country (
@@ -77,7 +79,7 @@ CREATE TABLE system_log (
 
 -- CREATE ROLES
 -- Create role for code execution
-CREATE ROLE tourism_user_app WITH LOGIN PASSWORD 'tourist';
+CREATE ROLE tourism_app_user WITH LOGIN PASSWORD 'tourist';
 
 -- right to connect to dtb and use schema public
 GRANT CONNECT ON DATABASE tourist_club_db TO tourism_app_user;
@@ -94,4 +96,4 @@ GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO tourism_app_user;
 
 -- CREATE DEFAULT ADMIN
 INSERT INTO users (username, password_hash, email, role) 
-VALUES ('admin', 'temporary_plain_text_hash', 'admin@touristclub.com', 'ADMIN');
+VALUES ('admin', 'temporary_plain_text_hash', 'admin@touristclub.com', 'ADMINISTRATION');

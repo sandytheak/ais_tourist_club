@@ -65,7 +65,8 @@ CREATE TABLE booking (
 	tour_id BIGINT REFERENCES tour(id) ON DELETE CASCADE,
 	tourist_id BIGINT REFERENCES users(id) ON DELETE CASCADE,
 	booking_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	status VARCHAR(20) DEFAULT 'Reserved' CHECK (status IN ('Reserved', 'Verified', 'Paid', 'Booked', 'Archived'))
+	status VARCHAR(20) DEFAULT 'Reserved' CHECK (status IN ('Reserved', 'Verified', 'Paid', 'Booked', 'Archived')),
+	total_price DECIMAL(10,2) NOT NULL DEFAULT 0.00
 );
 
 -- Entity: SystemLog

@@ -1,83 +1,87 @@
-# Information System "Travelers' Club"
+# 🌍 Tourist Club Web System
 
-## Project Overview
-This information system is designed to automate the operations of a travel club. The system provides database support for countries, themed tours, and travel agencies, allowing users to select optimal vacation options based on their preferences and scheduled dates.
+Інформаційна система туристичного клубу — це повноцінний вебдодаток, розроблений мовою C++ з використанням архітектурного патерну BCE (Entity-Control-Boundary). Проєкт дозволяє автоматизувати роботу туристичних агенцій, адміністрації клубу та процес бронювання турів для звичайних туристів.
 
----
+## ✨ Основні можливості (Features)
+* **Рольова модель (RBAC):** Розділення прав доступу на 4 рівні (Турист, Агенція, Адміністратор, Tech-Admin).
+* **Кастомний SSR-шаблонізатор:** Швидка генерація HTML-сторінок (Server-Side Rendering) без використання важких сторонніх фреймворків за допомогою C++ маніпуляцій з рядками у пам'яті.
+* **Управління турами та бронюваннями:** Захищені транзакції бази даних для бронювання (із запобіганням овербукінгу).
+* **Фінансова аналітика:** Автоматичний розрахунок доходу системи та експорт звітів у файл.
+* **DevSecOps інструменти:** Панель технічного моніторингу зі статусом сервера та кнопкою для автоматичного створення системного бекапу бази даних (через нативну утиліту `pg_dump`).
 
-## User Roles and Access
+## 🛠 Технологічний стек
+* **Backend:** C++ (стандарт C++17)
+* **Мережа:** `cpp-httplib` (багатопотоковий HTTP-сервер)
+* **База даних:** PostgreSQL 16+
+* **Драйвер БД:** `libpqxx`
+* **Frontend:** HTML5, CSS3 (без JavaScript)
+* **Розгортання:** Make, Docker, Docker Compose
 
-The system distinguishes between four main user groups, each with its own access level and functionality:
+## 📋 Вимоги до середовища (Prerequisites)
+Проєкт розрахований на розгортання в середовищі **Ubuntu / Linux**.
+Перед початком переконайтеся, що у вас встановлені:
+```bash
+# Компілятор та система збирання
+sudo apt update
+sudo apt install g++ make
 
-1. **Club Administration**
-   * Moderation of country lists and tour themes.
-   * Oversight of travel agency activities.
-   * Generation of analytical reports (popular destinations, visit statistics).
-   * Management of the completed tours archive.
+# Драйвер PostgreSQL для C++
+sudo apt install libpqxx-dev
 
-2. **Travel Agencies**
-   * Adding and updating information about their own tours.
-   * Specifying the number of available slots (vacancies) in tours.
-   * Managing departure dates and updating prices.
-   * Processing applications/requests from tourists.
+# Клієнт PostgreSQL (необхідний для створення бекапів через pg_dump)
+sudo apt install postgresql-client
 
-3. **Tourist (Service User)**
-   * Searching and filtering tours by country, theme, and date.
-   * Reviewing information regarding agency reliability.
-   * Selecting tours and booking spots according to personal preferences.
+# Docker та Docker Compose (для ізольованого запуску БД)
+sudo apt install docker.io docker-compose
+```
+## 🚀 Встановлення та запуск
 
-4. **Technical Staff**
-   * Maintaining database integrity (PostgreSQL).
-   * Configuring the server-side logic (C++ Backend).
-   * Monitoring system performance in Docker containers and managing access permissions.
+Крок 1. Запуск Бази Даних
+Перейдіть до папки зі скриптами бази даних та підніміть контейнер:
+```bash
 
----
+cd init-db
+sudo docker-compose up -d
+```
+Контейнер автоматично виконає файл init.sql та наповнить базу демо-даними (країни, агенції).
 
-## Functional Capabilities (Reports and Lists)
+Крок 2. Компіляція серверної частини
+Поверніться в корінь проєкту (або в папку, де лежить Makefile) і зберіть проєкт:
+```bash
 
-The system enables the generation of specific lists and tour schedules:
+make
+```
+Крок 3. Запуск вебсервера
+Запустіть зкомпільований виконуваний файл:
+```bash
 
-* **Tour Lists:** A directory of tours with available spots (considering booking deadlines).
-* **Hot Deals:** Tours with departure dates scheduled in the near future.
-* **Travel Archive:** Information on completed tours for preference analysis.
-* **Agency Ratings:** A list of partners who have been operating in the market for over 10 years (market veterans).
-* **Budget Options:** Filtering tours with costs below the market average.
-* **Travel Calendar:** Generating individual schedules for tourists to avoid date overlaps.
+sudo ./TouristClubServer
+```
+(Примітка: права sudo можуть знадобитися для прослуховування мережевих портів та запису файлів бекапу).
 
----
+Після цього відкрийте браузер і перейдіть за адресою:
+👉 http://localhost:8080
+📂 Структура проєкту
+Plaintext
 
-## Tech Stack
-* **Backend:** C++ (Framework: Crow / Drogon)
-* **Database:** PostgreSQL
-* **Infrastructure:** Docker & Docker Compose
-* **Frontend:** HTML5, CSS3, JavaScript (Browser-based)
+/backend/
+├── /src/            # C++ вихідні файли (Control, Boundary, Entity)
+├── /include/        # C++ заголовкові файли (.h)
+├── /build/          # Директорія для бінарних файлів та бекапів (.dump)
+├── Makefile         # Скрипт збирання проєкту
+/frontend/       # Статичні HTML-шаблони дашбордів
+/init-db/
+├── init.sql         # SQL-скрипт структури бази та демо-даних
+docker-compose.yml # Конфігурація Docker для PostgreSQL
 
-# Project Structure
+## 🔐 Тестові акаунти (Демо-режим)
 
-## Database Architecture
+Після ініціалізації бази даних доступні наступні демо-користувачі (пароль перевіряється через систему хешування):
 
-The project utilizes the **PostgreSQL 16+** relational database management system. The architecture is designed based on data normalization principles to ensure integrity and high performance.
+* **Турист:** taras_guitar
+* **Агенція**: Представник компанії "GoUkraine Travel"
+* **Тех-Адмін**: root_sec (доступ до системних логів та бекапів)
 
-### Database Schema (ER Diagram)
-The table structure corresponds to the UML class diagram (Entity):
-* **`users`**: Central user table supporting Role-Based Access Control (RBAC). Roles include: `TOURIST`, `AGENCY`, `ADMIN`, `TECH_SUPPORT`.
-* **`agencies`**: Data regarding partner travel agencies (verification status, years of operation).
-* **`countries`**: A directory of countries including visa requirement information.
-* **`tours`**: Detailed tour information with `M:1` (Many-to-One) relationships to countries and agencies.
-* **`bookings`**: A junction table linking tourists and tours (Composition relationship).
-* **`system_log`**: A technical activity log for tech support administrators.
+## 👤 Автор
 
-### Key Implementation Features:
-1. **Data Integrity:** Utilizes `FOREIGN KEY` constraints with `ON DELETE CASCADE` rules to automatically remove bookings if a tour is cancelled.
-2. **Security:** A dedicated database role `tourism_app_user` is implemented with restricted permissions (Principle of Least Privilege).
-3. **Automation:** `id` fields use `GENERATED ALWAYS AS IDENTITY`, while `timestamps` are automatically generated at the database level via `DEFAULT CURRENT_TIMESTAMP`.
-
-### How to Deploy the Database (Ubuntu/Docker)
-1. Ensure the `init.sql` file is located in the `./db/` directory.
-2. Start the container:
-   ```bash
-   docker-compose up -d db
-3. Password for default users:
-    'admin': 'ADMIN'
-    'tourism_app_user': 'Tourist' (need to communicate separately.
-    This role should be adjusted before final build of application and communicate in safe way.
+Проєкт розроблено в рамках курсової роботи з дисципліни "Основи програмування".

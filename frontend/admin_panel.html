@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard - Tourist Club</title>
+</head>
+<body style="font-family: Arial, sans-serif; padding: 20px; background-color: #2c3e50;">
+  <div style="max-width: 1000px; margin: 0 auto;">
+    
+    <div style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; border-left: 6px solid #e74c3c;">
+      <h2 style="color: #2c3e50; margin: 0;">🛡️ Панель Адміністратора</h2>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+      
+      <div style="background: white; padding: 20px; border-radius: 8px;">
+        <h3 style="color: #e74c3c; margin-top: 0;">Черга на модерацію агенцій</h3>
+        <hr style="border: 0; border-top: 1px solid #eee; margin-bottom: 15px;">@1
+        </div>
+
+      <div style="background: white; padding: 20px; border-radius: 8px;">
+        <h3 style="color: #27ae60; margin-top: 0;">Фінансовий звіт та Популярність</h3>
+        <hr style="border: 0; border-top: 1px solid #eee; margin-bottom: 15px;">
+        <p style="font-size: 18px;">Загальний дохід: @2<strong style="color: #27ae60;"></strong></p>
+        
+        <h4 style="margin-bottom: 5px;">Статистика турів (JSON DUMP):</h4>
+        <pre style="background: #2c3e50; color: #ecf0f1; padding: 15px; border-radius: 4px; overflow-x: auto;">@3</pre>
+
+        <form action='/admin/export' method='POST' style="margin-top: 15px;">
+          <input type="hidden" name="format" value="PDF">
+          <button type='submit' style="background-color: #2980b9; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer;">Експорт у PDF</button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</body>
+</html>

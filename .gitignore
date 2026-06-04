@@ -16,6 +16,7 @@
 
 # === Copile system (CMake / Make) ===
 # Directory whre CMake generate compile files
+/backend/build/
 /build/
 /bin/
 CMakeCache.txt
